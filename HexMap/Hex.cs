@@ -11,21 +11,7 @@ namespace HexMap
 
         public Vector3DInt Offset { get; private set; }
         public HexCoordinates Coordinates { get; private set; }
-        private int id = -1;
-        public int ID
-        {
-            get
-            {
-                return id;
-            }
-            set
-            {
-                if (id == -1)
-                {
-                    id = value;
-                }
-            }
-        }
+        public int ID { get; private set; }
 
         protected int cost;
         public int Cost
@@ -37,13 +23,15 @@ namespace HexMap
         }
 
         #region CONSTRUCTORS
-        public Hex(int x, int z) : this(HexCoordinates.FromOffsetCoordinates(x, z)) { }
+        public Hex(int x, int z, int id) : this(HexCoordinates.FromOffsetCoordinates(x, z), id) { }
+        public abstract bool IsWalkable();
 
-        public Hex(HexCoordinates coordinates)
+        public Hex(HexCoordinates coordinates, int id)
         {
             Coordinates = coordinates;
             Offset = HexCoordinates.OffsetFromHexCoordinates(coordinates);
             neighbors = new List<INode>();
+            ID = id;
         }
         #endregion
 
@@ -77,7 +65,6 @@ namespace HexMap
             return Math.Max(xy, Math.Abs(Coordinates.Z - hex.Coordinates.Z));
         }
 
-        public abstract bool IsWalkable();
 
         public void AddNeighbor(INode neighbor)
         {
