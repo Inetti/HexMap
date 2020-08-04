@@ -35,6 +35,28 @@ namespace HexMap {
             return null;
         }
 
+        /// <summary>
+        /// Return hex by offset coordinates
+        /// </summary>
+        /// <param name="offsetX">X offset</param>
+        /// <param name="offsetZ">Z offset</param>
+        /// <returns></returns>
+        public T GetHex(int offsetX, int offsetZ)
+        {
+            HexCoordinates coordinates = HexCoordinates.FromOffsetCoordinates(offsetX, offsetZ);
+            if (hexDict.ContainsKey(coordinates))
+            {
+                return hexDict[coordinates];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Return circle of hexs with current radius
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
         public T[] GetCircle(Hex center, int radius) {
             List<T> circle = new List<T>();
             HexCoordinates coordinate = new HexCoordinates(center.Coordinates.X - radius, center.Coordinates.Z + radius);
