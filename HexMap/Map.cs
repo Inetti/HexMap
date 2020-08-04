@@ -7,23 +7,23 @@ namespace HexMap {
         public T[] AllHexs { get; protected set; }
         protected Dictionary<HexCoordinates, T> hexDict;
 
-        public  Map(MapSettings mapData) {
+        public  Map(MapSettings settings) {
             hexDict = new Dictionary<HexCoordinates, T>();
-            AllHexs = CreateMapSectors(mapData);
+            AllHexs = CreateMapSectors(settings);
             foreach (var hex in AllHexs) {
                 SetHexNeighbors(hex);
                 hexDict[hex.Coordinates] = hex;
             }
         }
 
-        protected abstract T[] CreateMapSectors(MapSettings mapData);
+        protected abstract T[] CreateMapSectors(MapSettings settings);
 
         private void SetHexNeighbors(Hex T) {
             foreach (var dir in HexCoordinates.directions) {
                 HexCoordinates coordinates = new HexCoordinates(T.Coordinates.X + dir.X, T.Coordinates.Z + dir.Y);
                 T neighbor = GetHex(coordinates);
                 if (neighbor != null) {
-                    T.SetNeighbor(neighbor);
+                    T.AddNeighbor(neighbor);
                 }
             }
         }    
