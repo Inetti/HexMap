@@ -1,26 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pathfinder;
 
 namespace HexMap
 {
     [Serializable]
-    public abstract class Hex : INode
+    public abstract class Hex 
     {
-        protected List<INode> neighbors;
+        protected List<Hex> neighbors;
 
         public Vector3DInt Offset { get; private set; }
         public HexCoordinates Coordinates { get; private set; }
         public int ID { get; private set; }
-
-        protected int cost;
-        public int Cost
-        {
-            get
-            {
-                return cost;
-            }
-        }
 
         #region CONSTRUCTORS
         public Hex(int x, int z, int id) : this(HexCoordinates.FromOffsetCoordinates(x, z), id) { }
@@ -30,14 +20,14 @@ namespace HexMap
         {
             Coordinates = coordinates;
             Offset = HexCoordinates.OffsetFromHexCoordinates(coordinates);
-            neighbors = new List<INode>();
+            neighbors = new List<Hex>();
             ID = id;
         }
         #endregion
 
         public Hex GetNeighborByDirection(HexDirection direction)
         {
-            Vector2DInt dir = HexCoordinates.directions[(int)direction];
+            Vector2DInt dir = HexCoordinates.GetVectorByDirection(direction);
             HexCoordinates neighborCoordinates = new HexCoordinates(Coordinates.X + dir.X, Coordinates.Z + dir.Y);
             foreach (Hex hex in neighbors)
             {
@@ -49,24 +39,13 @@ namespace HexMap
             return null;
         }
 
-        public override string ToString()
-        {
-            return $"Hex(Coord: {Coordinates.X}, {Coordinates.Y}, {Coordinates.Z} | Offset: {Offset.X}, {Offset.Z} )";
-        }
-
-        public int HeuristicCostTo(INode n)
-        {
-            return DistanceTo((Hex)n);
-        }
-
         public int DistanceTo(Hex hex)
         {
             int xy = Math.Max(Math.Abs(Coordinates.X - hex.Coordinates.X), Math.Abs(Coordinates.Y - hex.Coordinates.Y));
             return Math.Max(xy, Math.Abs(Coordinates.Z - hex.Coordinates.Z));
         }
 
-
-        public void AddNeighbor(INode neighbor)
+        public void AddNeighbor(Hex neighbor)
         {
             if (neighbors.Contains(neighbor))
                 return;
@@ -74,9 +53,14 @@ namespace HexMap
             neighbor.AddNeighbor(this);
         }
 
-        public INode[] GetNeighbors()
+        public Hex[] GetNeighbors()
         {
             return neighbors.ToArray();
+        }
+
+        public override string ToString()
+        {
+            return $"Hex(Coord: {Coordinates.X}, {Coordinates.Y}, {Coordinates.Z} | Offset: {Offset.X}, {Offset.Z} )";
         }
     }
 }

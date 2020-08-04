@@ -8,7 +8,7 @@ namespace HexMap.Tests
 {
     internal class TestHex : Hex
     {
-        private bool isWalkable;
+        private readonly bool isWalkable;
 
         public TestHex(int x, int z, bool isWalkable, int id) : base(x, z, id)
         {

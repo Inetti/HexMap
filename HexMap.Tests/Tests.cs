@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System;
 
 namespace HexMap.Tests
 {
@@ -10,41 +9,24 @@ namespace HexMap.Tests
         [SetUp]
         public void Setup()        
         {
-            map = new TestMap(new TestSettings(1000, 1000));
+            map = new TestMap(1000, 1000);
         }
 
-
         [Test]
-        [Category("SlowTest")]
-        public void EquivalenceOfTypesCoordinate()
+        public void EquivalenceOfTypeCoordinate()
         {
-            foreach (var hex in map.AllHexs)
+            foreach (var hex in map.GetAllHex())
             {
                 Vector3DInt offset = hex.Offset;
                 HexCoordinates hexCoordinates = HexCoordinates.FromOffsetCoordinates(offset.X, offset.Z);
                 Hex hexTest = map.GetHex(hexCoordinates);
                 Assert.AreEqual(hex.ID, hexTest.ID);
-            }
 
-            foreach (var hex in map.AllHexs)
-            {
-                HexCoordinates hexCoordinates = hex.Coordinates;
-                Vector3DInt offset = HexCoordinates.OffsetFromHexCoordinates(hexCoordinates);
-                Hex hexTest = map.GetHex(offset.X, offset.Z);
+                hexCoordinates = hex.Coordinates;
+                offset = HexCoordinates.OffsetFromHexCoordinates(hexCoordinates);
+                hexTest = map.GetHex(offset.X, offset.Z);
                 Assert.AreEqual(hex.ID, hexTest.ID);
             }
         }
-    }
-
-    public class MapTests
-    {
-        TestMap map;
-        [SetUp]
-        public void Setup()
-        {
-            map = new TestMap(new TestSettings(10, 10));
-        }
-
-
     }
 }

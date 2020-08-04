@@ -9,6 +9,11 @@ namespace HexMap {
         public static readonly Vector2DInt[] directions = new Vector2DInt[] { new Vector2DInt(0, 1), new Vector2DInt(1, 0), new Vector2DInt(1, -1),
                                                         new Vector2DInt(0, -1), new Vector2DInt(-1, 0), new Vector2DInt(-1, 1)};
 
+        public static Vector2DInt GetVectorByDirection(HexDirection direction)
+        {
+            return directions[(int)direction];
+        }
+
         public int X { get; private set; }
         public int Z { get; private set; }
         public int Y { get { return -X - Z; } }
@@ -28,9 +33,10 @@ namespace HexMap {
             return new Vector3DInt(x, -x - z, z);
         }
 
-        public static HexCoordinates FromWorldPosition(float x, float y, float z) {
+        public static HexCoordinates FromWorldPosition(float x, float z)
+        {
             x /= (HexMetrics.InnerRadius * 2f);
-            y = -x;
+            float y = -x;
             float offset = z / (HexMetrics.OuterRadius * 3f);
             x -= offset;
             y -= offset;
