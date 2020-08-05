@@ -27,13 +27,6 @@ namespace HexMap
                     T hex = CreateHex(x, z, hexID);
                     hexs[x + z * Width] = hex;
                     hexID++;
-                    foreach (var dir in HexCoordinates.directions)
-                    {
-                        HexCoordinates coordinates = new HexCoordinates(hex.Coordinates.X + dir.X, hex.Coordinates.Z + dir.Y);
-                        T neighbor = GetHex(coordinates);
-                        if (neighbor != null)
-                            hex.AddNeighbor(neighbor);
-                    }
                 }
             }
         }

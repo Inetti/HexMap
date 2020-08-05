@@ -4,32 +4,6 @@ using System.Collections.Generic;
 namespace HexMap {
     [Serializable]
     public abstract class Map<T> where T : Hex {
-        //public  Map(T2 settings) {
-        //    hexDict = new Dictionary<HexCoordinates, T1>();
-        //    AllHexs = CreateMapSectors(settings);
-        //    foreach (var hex in AllHexs) {
-        //        SetHexNeighbors(hex);
-        //        //hexDict[hex.Coordinates] = hex;
-        //    }
-        //}
-
-        /// <summary>
-        /// Return array of hexs without neighbors
-        /// </summary>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        //protected abstract T1[] CreateMapSectors(T2 settings);
-
-        //private void SetHexNeighbors(Hex T) {
-        //    foreach (var dir in HexCoordinates.directions) {
-        //        HexCoordinates coordinates = new HexCoordinates(T.Coordinates.X + dir.X, T.Coordinates.Z + dir.Y);
-        //        T1 neighbor = GetHex(coordinates);
-        //        if (neighbor != null) {
-        //            T.AddNeighbor(neighbor);
-        //        }
-        //    }
-        //}    
-
         public abstract T[] GetAllHex();
 
         public abstract T GetHex(HexCoordinates coordinates);
@@ -48,7 +22,7 @@ namespace HexMap {
         /// <param name="center"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public T[] GetCircle(Hex center, int radius) {
+        public T[] GetCircle(T center, int radius) {
             List<T> circle = new List<T>();
             HexCoordinates coordinate = new HexCoordinates(center.Coordinates.X - radius, center.Coordinates.Z + radius);
             T hex = GetHex(coordinate);
