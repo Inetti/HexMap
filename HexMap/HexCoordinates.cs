@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HexMap {
     [System.Serializable]
@@ -31,6 +32,22 @@ namespace HexMap {
             int x = coordinates.X + coordinates.Z / 2;
             int z = coordinates.Z;
             return new Vector3DInt(x, -x - z, z);
+        }
+
+        public static HexCoordinates[] GetCircle(HexCoordinates center, int radius)
+        {
+            List<HexCoordinates> circle = new List<HexCoordinates>();
+            HexCoordinates coordinates = new HexCoordinates(center.X - radius, center.Z + radius);
+            for (int x = 1; x < directions.Length + 1; x++)
+            {
+                Vector2DInt dir = directions[x % directions.Length];
+                for (int i = 0; i < radius; i++)
+                {
+                    coordinates = new HexCoordinates(coordinates.X + dir.X, coordinates.Z + dir.Y);
+                    circle.Add(coordinates);
+                }
+            }
+            return circle.ToArray();
         }
 
         public static HexCoordinates FromWorldPosition(float x, float z)

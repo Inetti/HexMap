@@ -11,5 +11,10 @@ namespace HexMap.Tests
         public TestHex(int x, int z, int id) : base(x, z, id)
         {
         }
+
+        public TestHex(HexCoordinates coordinates, int id) : base(coordinates, id)
+        {
+
+        }
     }
 }

@@ -16,4 +16,16 @@ namespace HexMap.Tests
             return new TestHex(offsetX, offsetZ, id);
         }
     }
+
+    class TestRoundMap : RoundMap<TestHex>
+    {
+        public TestRoundMap(int radius) : base(radius)
+        {         
+        }
+
+        protected override TestHex CreateHex(HexCoordinates coordinates, int id)
+        {
+            return new TestHex(coordinates, id);
+        }
+    }
 }

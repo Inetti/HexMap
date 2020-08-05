@@ -31,7 +31,7 @@ namespace HexMap
             }
         }
 
-        protected abstract T CreateHex(int offsetX, int offsetY, int id);
+        protected abstract T CreateHex(int offsetX, int offsetZ, int id);
 
         public override T[] GetAllHex()
         {

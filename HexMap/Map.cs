@@ -23,24 +23,17 @@ namespace HexMap {
         /// <param name="radius"></param>
         /// <returns></returns>
         public T[] GetCircle(T center, int radius) {
+            HexCoordinates[] circleCoordinates = HexCoordinates.GetCircle(center.Coordinates, radius);
             List<T> circle = new List<T>();
-            HexCoordinates coordinate = new HexCoordinates(center.Coordinates.X - radius, center.Coordinates.Z + radius);
-            T hex = GetHex(coordinate);
-            if (hex != null) {
-                circle.Add(hex);
-            }
-
-            for (int x = 1; x < HexCoordinates.directions.Length + 1; x++) {
-                Vector2DInt dir = HexCoordinates.directions[x % HexCoordinates.directions.Length];
-                for (int i = 0; i < radius; i++) {
-                    coordinate = new HexCoordinates(coordinate.X + dir.X, coordinate.Z + dir.Y);
-                    hex = GetHex(coordinate);
-                    if (hex != null && !circle.Contains(hex)) {
-                        circle.Add(hex);
-                    }
+            foreach (var coordinates in circleCoordinates)
+            {
+                T hex = GetHex(coordinates);
+                if (hex != null && circle.Contains(hex) == false)
+                {
+                    circle.Add(hex);
                 }
             }
             return circle.ToArray();
-        }
+        }        
     }
 }
