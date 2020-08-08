@@ -8,12 +8,11 @@ namespace HexMap.Tests
     class RoundMapTests
     {
         RoundMap<Hex> map;
-        Random random;
 
         [SetUp]
         public void Setup()
         {
-            random = new Random();
+            Random random = new Random();
 
             map = new RoundMap<Hex>(random.Next(1, 10));
         }
@@ -23,6 +22,23 @@ namespace HexMap.Tests
         {
             //Assert
             Assert.IsNotNull(map.GetAllHex());
+        }
+
+        [Test]
+        public void GetHex_should_return_array_with_length_equals_map_square()
+        {
+            //Arrange
+            var expectedSizeMap = 1;
+            for (int r = 1; r < map.Radius + 1; r++)
+            {
+                expectedSizeMap += 6 * r;
+            }
+
+            //Act
+            var actualSizeMap = map.GetAllHex().Length;
+
+            //Assert
+            Assert.AreEqual(expectedSizeMap, actualSizeMap);
         }
 
         [Test]

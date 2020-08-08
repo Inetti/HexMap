@@ -22,6 +22,18 @@ namespace HexMap.Tests
             //Assert
             Assert.IsNotNull(map.GetAllHex());
         }
+        [Test]
+        public void GetHex_should_return_array_with_length_equals_map_square()
+        {
+            //Arrange
+            var expectedSizeMap = map.Width * map.Height;
+
+            //Act
+            var actualSizeMap = map.GetAllHex().Length;
+
+            //Assert
+            Assert.AreEqual(expectedSizeMap, actualSizeMap);
+        }
 
         [Test]
         public void GetHex_should_return_null_by_wrong_HexCoordinates()
