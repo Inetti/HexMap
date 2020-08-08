@@ -9,10 +9,9 @@ namespace HexMap
     public class RoundMap<T> : Map<T> where T : Hex
     {
         public int Radius { get; private set; }
-        public int Size { get; private set; }
-        public Dictionary<HexCoordinates, T> hexsDict;
 
         private T[] hexs;
+        private Dictionary<HexCoordinates, T> hexsDict;
 
         public RoundMap(int radius)
         {
