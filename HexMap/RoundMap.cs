@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HexMap
 {
-    public abstract class RoundMap<T> : Map<T> where T : Hex
+    public class RoundMap<T> : Map<T> where T : Hex
     {
         public int Radius { get; private set; }
         public int Size { get; private set; }
@@ -45,7 +45,10 @@ namespace HexMap
             return hex;
         }
 
-        protected abstract T CreateHex(HexCoordinates coordinates, int id);
+        protected virtual T CreateHex(HexCoordinates coordinates, int id)
+        {
+            return new Hex(coordinates, id) as T;
+        }
 
         public override T[] GetAllHex()
         {

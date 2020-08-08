@@ -23,7 +23,12 @@ namespace HexMap {
             X = x;
             Z = z;
         }
-        
+
+        public override string ToString() {
+            return $"x = {X}, y = {Y}, z = {Z}";
+        }
+
+        #region STATIC_FUNCTIONS
         public static HexCoordinates FromOffsetCoordinates(int x, int z) {
             return new HexCoordinates(x - z/2, z);
         }
@@ -34,6 +39,12 @@ namespace HexMap {
             return new Vector3DInt(x, -x - z, z);
         }
 
+        /// <summary>
+        /// Return circle of hexCoordinates with current center and radius
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
         public static HexCoordinates[] GetCircle(HexCoordinates center, int radius)
         {
             List<HexCoordinates> circle = new List<HexCoordinates>();
@@ -49,36 +60,6 @@ namespace HexMap {
             }
             return circle.ToArray();
         }
-
-        public static HexCoordinates FromWorldPosition(float x, float z)
-        {
-            x /= (HexMetrics.InnerRadius * 2f);
-            float y = -x;
-            float offset = z / (HexMetrics.OuterRadius * 3f);
-            x -= offset;
-            y -= offset;
-
-            int iX = (int)Math.Round(x);
-            int iY = (int)Math.Round(y);
-            int iZ = (int)Math.Round(-x - y);
-
-            if (iX + iY + iZ != 0) {
-                float dX = Math.Abs(x - iX);
-                float dY = Math.Abs(y - iY);
-                float dZ = Math.Abs(-x - y - iZ);
-
-                if (dX > dY && dX > dZ) {
-                    iX = -iY - iZ;
-                } else if (dZ > dY) {
-                    iZ = -iX - iY;
-                }
-            }
-
-            return new HexCoordinates(iX, iZ);
-        }
-
-        public override string ToString() {
-            return $"x = {X}, y = {Y}, z = {Z}";
-        }
+        #endregion
     }
 }

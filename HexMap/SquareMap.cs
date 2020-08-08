@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HexMap
 {
     [Serializable]
-    public abstract class SquareMap<T> : Map<T> where T : Hex
+    public class SquareMap<T> : Map<T> where T : Hex
     {
         private readonly T[] hexs;
 
@@ -31,7 +31,10 @@ namespace HexMap
             }
         }
 
-        protected abstract T CreateHex(int offsetX, int offsetZ, int id);
+        protected virtual T CreateHex(int offsetX, int offsetZ, int id) 
+        {
+            return new Hex(offsetX, offsetZ, id) as T;
+        }
 
         public override T[] GetAllHex()
         {

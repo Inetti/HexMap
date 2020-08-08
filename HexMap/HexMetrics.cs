@@ -1,4 +1,6 @@
-﻿namespace HexMap
+﻿using System;
+
+namespace HexMap
 {
     public static class HexMetrics
     {
@@ -45,6 +47,37 @@
             float x = GetPositionX(hex);
             float z = GetPositionZ(hex);
             return new Vector3D(x, 0, z);
+        }
+
+        public static HexCoordinates FromWorldPosition(float x, float z)
+        {
+            x /= (HexMetrics.InnerRadius * 2f);
+            float y = -x;
+            float offset = z / (HexMetrics.OuterRadius * 3f);
+            x -= offset;
+            y -= offset;
+
+            int iX = (int)Math.Round(x);
+            int iY = (int)Math.Round(y);
+            int iZ = (int)Math.Round(-x - y);
+
+            if (iX + iY + iZ != 0)
+            {
+                float dX = Math.Abs(x - iX);
+                float dY = Math.Abs(y - iY);
+                float dZ = Math.Abs(-x - y - iZ);
+
+                if (dX > dY && dX > dZ)
+                {
+                    iX = -iY - iZ;
+                }
+                else if (dZ > dY)
+                {
+                    iZ = -iX - iY;
+                }
+            }
+
+            return new HexCoordinates(iX, iZ);
         }
     }
 }

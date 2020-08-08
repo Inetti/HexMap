@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace HexMap {
     [Serializable]
     public abstract class Map<T> where T : Hex {
+        private HexCircleManager<T> circleManager;
+
         public abstract T[] GetAllHex();
-
         public abstract T GetHex(HexCoordinates coordinates);
-
         /// <summary>
         /// Return hex by offset coordinates
         /// </summary>
@@ -17,23 +17,17 @@ namespace HexMap {
         public abstract T GetHex(int offsetX, int offsetZ);
 
         /// <summary>
-        /// Return circle of hexs with current radius
+        /// Return circle of hexs with current center and radius
         /// </summary>
         /// <param name="center"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
         public T[] GetCircle(T center, int radius) {
-            HexCoordinates[] circleCoordinates = HexCoordinates.GetCircle(center.Coordinates, radius);
-            List<T> circle = new List<T>();
-            foreach (var coordinates in circleCoordinates)
+            if (circleManager == null)
             {
-                T hex = GetHex(coordinates);
-                if (hex != null && circle.Contains(hex) == false)
-                {
-                    circle.Add(hex);
-                }
+                circleManager = new HexCircleManager<T>(this);
             }
-            return circle.ToArray();
-        }        
+            return circleManager.GetCircle(center, radius);
+        }
     }
 }
