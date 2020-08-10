@@ -23,7 +23,7 @@ namespace HexMap.Tests
             int expectLength = radius * 6;
 
             //Act
-            HexCoordinates[] circle = HexCoordinates.GetCircle(center, radius);
+            HexCoordinates[] circle = center.GetCircle(radius);
             int actualLength = circle.Length;
             
             //Assert
@@ -44,7 +44,7 @@ namespace HexMap.Tests
             };
 
             //Act
-            HexCoordinates[] actualCoord = HexCoordinates.GetCircle(new HexCoordinates(0,0), 1);
+            HexCoordinates[] actualCoord = new HexCoordinates(0,0).GetCircle(1);
 
             //Assert
             foreach (var coord in expectedCoord)
