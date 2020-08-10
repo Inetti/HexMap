@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HexMap
+namespace HexMap 
 {
     [Serializable]
     public class SquareMap<T> : Map<T> where T : Hex
@@ -16,9 +16,9 @@ namespace HexMap
 
         public SquareMap(int width, int heigth)
         {
-            Width = width;
-            Height = heigth;
-            hexs = new T[Width * Height];
+            Width     = width; 
+            Height    = heigth;
+            hexs      = new T[Width * Height];
             int hexID = 0;
             for (int x = 0; x < Width; x++)
             {

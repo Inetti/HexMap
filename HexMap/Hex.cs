@@ -16,7 +16,7 @@ namespace HexMap
         public Hex(HexCoordinates coordinates, int id)
         {
             Coordinates = coordinates;
-            Offset = HexCoordinates.OffsetFromHexCoordinates(coordinates);
+            Offset = Coordinates.ToOffsetCoordinates();
             ID = id;
         }
         #endregion
@@ -26,5 +26,6 @@ namespace HexMap
             int xy = Math.Max(Math.Abs(Coordinates.X - hex.Coordinates.X), Math.Abs(Coordinates.Y - hex.Coordinates.Y));
             return Math.Max(xy, Math.Abs(Coordinates.Z - hex.Coordinates.Z));
         }
+
     }
 }

@@ -2,58 +2,72 @@
 
 namespace HexMap
 {
-    public static class HexMetrics
+    [Serializable]
+    public class HexMetrics
     {
-        static float outerRadius = 1;
-        public static float OuterRadius
+        private float outerRadius;
+        public float OuterRadius
         {
-            get { return outerRadius > 0 ? outerRadius : 1; }
-            set { outerRadius = value; }
+            get { return outerRadius; }
+            set 
+            { 
+                if (outerRadius == 0)
+                    outerRadius = value; 
+            }
         }
+        public float InnerRadius { get { return OuterRadius * 0.8660254037844386f; } }
+        public float Height { get { return 2 * OuterRadius; } }
+        public float Width { get { return 2 * InnerRadius; } }
+        public float VerticalDistance { get { return Height * 0.75f; } }
+        public float HorizontalDistance { get { return Width; } }
 
-        public static float InnerRadius
+        private Vector3D[] corners;
+        public Vector3D[] HexCorners
+        { 
+            get { return corners; }
+            set
+            {
+                if (corners == null)
+                    corners = value;
+            }
+        }
+        
+        public HexMetrics(float outerRadius)
         {
-            get { return OuterRadius * 0.8660254037844386f; }
+            this.outerRadius = outerRadius;
+            corners = new [] {
+                new Vector3D(0f, 0f, OuterRadius),
+                new Vector3D(InnerRadius, 0f, 0.5f * OuterRadius),
+                new Vector3D(InnerRadius, 0f, -0.5f * OuterRadius),
+                new Vector3D(0f, 0f, -OuterRadius),
+                new Vector3D(-InnerRadius, 0f, -0.5f * OuterRadius),
+                new Vector3D(-InnerRadius, 0f, 0.5f * OuterRadius),
+            };
         }
-
-        public static float Height { get { return 2 * OuterRadius; } }
-        public static float Width { get { return 2 * InnerRadius; } }
-        public static float VerticalDistance { get { return Height * 0.75f; } }
-        public static float HorizontalDistance { get { return Width; } }
-
-        public static Vector3D[] corners = {
-            new Vector3D(0f, 0f, OuterRadius),
-            new Vector3D(InnerRadius, 0f, 0.5f * OuterRadius),
-            new Vector3D(InnerRadius, 0f, -0.5f * OuterRadius),
-            new Vector3D(0f, 0f, -OuterRadius),
-            new Vector3D(-InnerRadius, 0f, -0.5f * OuterRadius),
-            new Vector3D(-InnerRadius, 0f, 0.5f * OuterRadius),
-            new Vector3D(0f, 0f, OuterRadius),
-        };
-
-        public static float GetPositionX(Hex hex)
+        
+        public float GetPositionX(Hex hex)
         {
             float xOffset = (hex.Offset.Z % 2) * (Width / 2f);
             return hex.Offset.X * HorizontalDistance + xOffset;
         }
 
-        public static float GetPositionZ(Hex hex)
+        public float GetPositionZ(Hex hex)
         {
             return hex.Offset.Z * VerticalDistance;
         }
 
-        public static Vector3D GetPosition(Hex hex)
+        public Vector3D GetPosition(Hex hex)
         {
             float x = GetPositionX(hex);
             float z = GetPositionZ(hex);
             return new Vector3D(x, 0, z);
         }
 
-        public static HexCoordinates FromWorldPosition(float x, float z)
+        public HexCoordinates GetHexCoordinateFromWorldPosition(float x, float z)
         {
-            x /= (HexMetrics.InnerRadius * 2f);
-            float y = -x;
-            float offset = z / (HexMetrics.OuterRadius * 3f);
+            x /= (InnerRadius * 2f);
+            float y      = -x;
+            float offset = z / (OuterRadius * 3f);
             x -= offset;
             y -= offset;
 

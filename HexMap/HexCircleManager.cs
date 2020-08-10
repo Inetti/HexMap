@@ -8,7 +8,7 @@ namespace HexMap
 {
     public class HexCircleManager<T> where T: Hex
     {
-        private Map<T> map;
+        private readonly Map<T> map;
 
         public HexCircleManager(Map<T> map)
         {
@@ -17,7 +17,7 @@ namespace HexMap
 
         public T[] GetCircle(T center, int radius)
         {
-            HexCoordinates[] circleCoordinates = HexCoordinates.GetCircle(center.Coordinates, radius);
+            HexCoordinates[] circleCoordinates = center.Coordinates.GetCircle(radius);
             List<T> circle = new List<T>();
             foreach (var coordinates in circleCoordinates)
             {
