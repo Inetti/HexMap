@@ -43,7 +43,7 @@ namespace HexMap
 
         public override T GetHex(HexCoordinates coordinates)
         {
-            Vector3DInt offset = HexCoordinates.OffsetFromHexCoordinates(coordinates);
+            Vector3DInt offset = coordinates.ToOffsetCoordinates();
             return GetHex(offset.X, offset.Z);
         }
 

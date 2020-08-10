@@ -1,18 +1,16 @@
-﻿using AutoFixture;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
-using HexMap;
 
 namespace HexMap.Tests
 {
-    public class HexCircleManagerTests
+    public class HexCircleTests
     {
-        HexCircleManager<Hex> circleManager;
+        HexCircle<Hex> circleManager;
         Map<Hex> map;
         [SetUp]
         public void Setup()
         {
-            var mapMock = new Moq.Mock<Map<Hex>>();
+            var mapMock = new Mock<Map<Hex>>();
             mapMock.Setup(x => x.GetAllHex()).Returns(
                 new[] {
                     new Hex(new HexCoordinates(0, 0), 0),
@@ -25,8 +23,7 @@ namespace HexMap.Tests
                     }
                 );
             map = mapMock.Object;
-
-            circleManager = new HexCircleManager<Hex>(map);
+            circleManager = new HexCircle<Hex>(map);
         }
 
         [Test]

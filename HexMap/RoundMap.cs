@@ -10,8 +10,8 @@ namespace HexMap
     {
         public int Radius { get; private set; }
 
-        private T[] hexs;
-        private Dictionary<HexCoordinates, T> hexsDict;
+        private readonly T[] hexs;
+        private readonly Dictionary<HexCoordinates, T> hexsDict;
 
         public RoundMap(int radius)
         {
@@ -28,7 +28,7 @@ namespace HexMap
             hexsList.Add(CreateNewHex(center, hexID++));
             for (int circle = 1; circle < Radius + 1; circle++)
             {
-                HexCoordinates[] hexCoordinates = HexCoordinates.GetCircle(center, circle);
+                HexCoordinates[] hexCoordinates = center.GetCircle(circle);
                 foreach (var coord in hexCoordinates)
                 {
                     hexsList.Add(CreateNewHex(coord, hexID++));
@@ -56,8 +56,7 @@ namespace HexMap
 
         public override T GetHex(HexCoordinates coordinates)
         {
-            T hex;
-            hexsDict.TryGetValue(coordinates, out hex);
+            hexsDict.TryGetValue(coordinates, out T hex);
             return hex;
         }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace HexMap {
     [Serializable]
     public abstract class Map<T> where T : Hex {
-        private HexCircleManager<T> circleManager;
+        private HexCircle<T> circleManager;
 
         public abstract T[] GetAllHex();
         public abstract T GetHex(HexCoordinates coordinates);
@@ -25,7 +25,7 @@ namespace HexMap {
         public T[] GetCircle(T center, int radius) {
             if (circleManager == null)
             {
-                circleManager = new HexCircleManager<T>(this);
+                circleManager = new HexCircle<T>(this);
             }
             return circleManager.GetCircle(center, radius);
         }

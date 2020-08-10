@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace HexMap
 {
@@ -25,7 +24,6 @@ namespace HexMap
         {
             int xy = Math.Max(Math.Abs(Coordinates.X - hex.Coordinates.X), Math.Abs(Coordinates.Y - hex.Coordinates.Y));
             return Math.Max(xy, Math.Abs(Coordinates.Z - hex.Coordinates.Z));
-        }
-
+        }        
     }
 }

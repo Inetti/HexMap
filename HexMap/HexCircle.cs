@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HexMap
 {
-    public class HexCircleManager<T> where T: Hex
+    public class HexCircle<T> where T: Hex
     {
         private readonly Map<T> map;
 
-        public HexCircleManager(Map<T> map)
+        public HexCircle(Map<T> map)
         {
             this.map = map;
         }
