@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using System;
-using System.Data;
 using System.Linq;
 
 namespace HexMap.Tests

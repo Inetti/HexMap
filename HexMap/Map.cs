@@ -4,9 +4,12 @@ using System.Collections.Generic;
 namespace HexMap {
     [Serializable]
     public abstract class Map<T> where T : Hex {
-        private HexCircle<T> circleManager;
+        protected List<T> hexs;
+        public T[] GetAllHex()
+        {
+            return hexs.ToArray();
+        }
 
-        public abstract T[] GetAllHex();
         public abstract T GetHex(HexCoordinates coordinates);
         /// <summary>
         /// Return hex by offset coordinates
@@ -23,11 +26,22 @@ namespace HexMap {
         /// <param name="radius"></param>
         /// <returns></returns>
         public T[] GetCircle(T center, int radius) {
-            if (circleManager == null)
+            if (hexs.Contains(center))
             {
-                circleManager = new HexCircle<T>(this);
+                HexCoordinates[] circleCoordinates = center.Coordinates.GetCircle(radius);
+                List<T> circle = new List<T>();
+                foreach (var coordinates in circleCoordinates)
+                {
+                    T hex = GetHex(coordinates);
+                    if (hex != null)
+                    {
+                        circle.Add(hex);
+                    }
+                }
+                if (circle.Count > 0) 
+                    return circle.ToArray();
             }
-            return circleManager.GetCircle(center, radius);
+            return null;
         }
     }
 }

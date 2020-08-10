@@ -63,7 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HexCircle.cs" />
     <Compile Include="RoundMap.cs" />
     <Compile Include="SquareMap.cs" />
     <Compile Include="Vectors.cs" />
