@@ -5,8 +5,7 @@ namespace HexMap {
     [Serializable]
     public abstract class Map<T> where T : Hex {
         protected List<T> hexs;
-        public T[] GetAllHex()
-        {
+        public T[] GetAllHex() {
             return hexs.ToArray();
         }
 
@@ -26,37 +25,31 @@ namespace HexMap {
         /// <param name="radius"></param>
         /// <returns></returns>
         public T[] GetCircle(T center, int radius) {
-            if (hexs.Contains(center))
-            {
+            if (hexs.Contains(center)) {
                 List<T> circle = new List<T>();
                 HexCoordinates[] circleCoordinates = center.Coordinates.GetCircle(radius);
-                foreach (var coordinates in circleCoordinates)
-                {
+                foreach (var coordinates in circleCoordinates) {
                     T hex = GetHex(coordinates);
-                    if (hex != null)
-                    {
+                    if (hex != null) {
                         circle.Add(hex);
                     }
                 }
-                if (circle.Count > 0) 
+                if (circle.Count > 0)
                     return circle.ToArray();
             }
             return null;
         }
 
         /// <summary>
-        /// Return areay of hexs with current center and radius
+        /// Return area of hexs with current center and radius
         /// </summary>
         /// <param name="center"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public T[] GetArea(T center, int radius)
-        {
-            if (hexs.Contains(center))
-            {
+        public T[] GetArea(T center, int radius) {
+            if (hexs.Contains(center)) {
                 List<T> area = new List<T>();
-                for (int r = 1; r < radius + 1; r++)
-                {
+                for (int r = 1; r < radius + 1; r++) {
                     T[] circle = GetCircle(center, r);
                     if (circle != null)
                         area.AddRange(circle);

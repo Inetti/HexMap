@@ -1,18 +1,14 @@
 ﻿using System;
 
-namespace HexMap
-{
+namespace HexMap {
     [Serializable]
-    public class HexMetrics
-    {
+    public class HexMetrics {
         private float outerRadius;
-        public float OuterRadius
-        {
+        public float OuterRadius {
             get { return outerRadius; }
-            set 
-            { 
+            set {
                 if (outerRadius == 0)
-                    outerRadius = value; 
+                    outerRadius = value;
             }
         }
         public float InnerRadius { get { return OuterRadius * 0.8660254037844386f; } }
@@ -22,20 +18,17 @@ namespace HexMap
         public float HorizontalDistance { get { return Width; } }
 
         private Vector3D[] corners;
-        public Vector3D[] HexCorners
-        { 
+        public Vector3D[] HexCorners {
             get { return corners; }
-            set
-            {
+            set {
                 if (corners == null)
                     corners = value;
             }
         }
-        
-        public HexMetrics(float outerRadius)
-        {
+
+        public HexMetrics(float outerRadius) {
             this.outerRadius = outerRadius;
-            corners = new [] {
+            corners = new[] {
                 new Vector3D(0f, 0f, OuterRadius),
                 new Vector3D(InnerRadius, 0f, 0.5f * OuterRadius),
                 new Vector3D(InnerRadius, 0f, -0.5f * OuterRadius),
@@ -44,29 +37,25 @@ namespace HexMap
                 new Vector3D(-InnerRadius, 0f, 0.5f * OuterRadius),
             };
         }
-        
-        public float GetPositionX(Hex hex)
-        {
+
+        public float GetPositionX(Hex hex) {
             float xOffset = (hex.Offset.Z % 2) * (Width / 2f);
             return hex.Offset.X * HorizontalDistance + xOffset;
         }
 
-        public float GetPositionZ(Hex hex)
-        {
+        public float GetPositionZ(Hex hex) {
             return hex.Offset.Z * VerticalDistance;
         }
 
-        public Vector3D GetPosition(Hex hex)
-        {
+        public Vector3D GetPosition(Hex hex) {
             float x = GetPositionX(hex);
             float z = GetPositionZ(hex);
             return new Vector3D(x, 0, z);
         }
 
-        public HexCoordinates GetHexCoordinateFromWorldPosition(float x, float z)
-        {
+        public HexCoordinates GetHexCoordinateFromWorldPosition(float x, float z) {
             x /= (InnerRadius * 2f);
-            float y      = -x;
+            float y = -x;
             float offset = z / (OuterRadius * 3f);
             x -= offset;
             y -= offset;
@@ -75,18 +64,14 @@ namespace HexMap
             int iY = (int)Math.Round(y);
             int iZ = (int)Math.Round(-x - y);
 
-            if (iX + iY + iZ != 0)
-            {
+            if (iX + iY + iZ != 0) {
                 float dX = Math.Abs(x - iX);
                 float dY = Math.Abs(y - iY);
                 float dZ = Math.Abs(-x - y - iZ);
 
-                if (dX > dY && dX > dZ)
-                {
+                if (dX > dY && dX > dZ) {
                     iX = -iY - iZ;
-                }
-                else if (dZ > dY)
-                {
+                } else if (dZ > dY) {
                     iZ = -iX - iY;
                 }
             }
