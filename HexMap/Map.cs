@@ -28,8 +28,8 @@ namespace HexMap {
         public T[] GetCircle(T center, int radius) {
             if (hexs.Contains(center))
             {
-                HexCoordinates[] circleCoordinates = center.Coordinates.GetCircle(radius);
                 List<T> circle = new List<T>();
+                HexCoordinates[] circleCoordinates = center.Coordinates.GetCircle(radius);
                 foreach (var coordinates in circleCoordinates)
                 {
                     T hex = GetHex(coordinates);
@@ -40,6 +40,29 @@ namespace HexMap {
                 }
                 if (circle.Count > 0) 
                     return circle.ToArray();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Return areay of hexs with current center and radius
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+        public T[] GetArea(T center, int radius)
+        {
+            if (hexs.Contains(center))
+            {
+                List<T> area = new List<T>();
+                for (int r = 1; r < radius + 1; r++)
+                {
+                    T[] circle = GetCircle(center, r);
+                    if (circle != null)
+                        area.AddRange(circle);
+                }
+                if (area.Count > 0)
+                    return area.ToArray();
             }
             return null;
         }

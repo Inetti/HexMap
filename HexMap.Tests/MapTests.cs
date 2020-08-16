@@ -84,8 +84,8 @@ namespace HexMap.Tests
 
         public void GetCircle_should_return_null_by_unexisted_center()
         {
-            T center = new Hex(0, 0, 0) as T;
-            Assert.IsNull(map.GetCircle(center, 1));            
+            T unexistedCenter = new Hex(0, 0, 0) as T;
+            Assert.IsNull(map.GetCircle(unexistedCenter, 1));            
         }
     }
 }
