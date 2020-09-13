@@ -50,12 +50,12 @@ namespace HexMap.Tests {
 
         [Test]
         public void GetCircle_should_return_null_by_incorrect_radius() {
-            mapTests.GetCircle_should_return_null_by_incorrect_radius(map.Height + map.Width);
+            mapTests.GetCircle_should_return_list_with_zero_size_by_incorrect_radius(map.Height + map.Width);
         }
 
         [Test]
-        public void GetCircle_should_return_null_by_unexisted_center() {
-            mapTests.GetCircle_should_return_null_by_unexisted_center();
+        public void GetCircle_should_return_list_with_zero_size_by_unexisted_center() {
+            mapTests.GetCircle_should_return_list_with_zero_size_by_unexisted_center();
         }
     }
 }

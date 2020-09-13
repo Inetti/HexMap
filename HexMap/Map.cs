@@ -5,10 +5,15 @@ namespace HexMap {
     [Serializable]
     public abstract class Map<T> where T : Hex {
         protected List<T> hexs;
+        private T[] hexsArray;
         public T[] GetAllHex() {
-            return hexs.ToArray();
+            if (hexsArray == null) {
+                hexsArray = hexs.ToArray();
+            }
+            return hexsArray;
         }
 
+        public abstract bool IsValide(HexCoordinates coordinates);
         public abstract T GetHex(HexCoordinates coordinates);
         /// <summary>
         /// Return hex by offset coordinates
@@ -17,6 +22,7 @@ namespace HexMap {
         /// <param name="offsetZ">Z offset</param>
         /// <returns></returns>
         public abstract T GetHex(int offsetX, int offsetZ);
+        
 
         /// <summary>
         /// Return circle of hexs with current center and radius
@@ -24,20 +30,20 @@ namespace HexMap {
         /// <param name="center"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public T[] GetCircle(T center, int radius) {
+        public List<T> GetCircle(T center, int radius) {
+            List<T> circle = new List<T>();
             if (hexs.Contains(center)) {
-                List<T> circle = new List<T>();
                 HexCoordinates[] circleCoordinates = center.Coordinates.GetCircle(radius);
                 foreach (var coordinates in circleCoordinates) {
-                    T hex = GetHex(coordinates);
-                    if (hex != null) {
-                        circle.Add(hex);
+                    if (IsValide(coordinates)) {
+                        T hex = GetHex(coordinates);
+                        if (hex != null) {
+                            circle.Add(hex);
+                        }
                     }
                 }
-                if (circle.Count > 0)
-                    return circle.ToArray();
             }
-            return null;
+            return circle;
         }
 
         /// <summary>
@@ -46,18 +52,17 @@ namespace HexMap {
         /// <param name="center"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public T[] GetArea(T center, int radius) {
+        public List<T> GetArea(T center, int radius) {
+            List<T> area = new List<T>();
             if (hexs.Contains(center)) {
-                List<T> area = new List<T>();
                 for (int r = 1; r < radius + 1; r++) {
-                    T[] circle = GetCircle(center, r);
-                    if (circle != null)
-                        area.AddRange(circle);
+                    List<T> circle = GetCircle(center, r);
+                    foreach (var hex in circle) {
+                        area.Add(hex);
+                    }
                 }
-                if (area.Count > 0)
-                    return area.ToArray();
             }
-            return null;
+            return area;
         }
     }
 }

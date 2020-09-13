@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace HexMap.Tests {
     class MapTests<T> where T : Hex {
@@ -56,22 +57,28 @@ namespace HexMap.Tests {
         public void GetCircle_should_return_array_with_length_more_then_zero_by_exested_centre_and_correct_radius() {
             //Assert
             foreach (var hex in map.GetAllHex()) {
-                Hex[] circle = map.GetCircle(hex, 1);
-                Assert.IsTrue(circle.Length > 0);
+                List<T> circle = map.GetCircle(hex, 1);
+                Assert.IsTrue(circle.Count > 0);
             }
         }
 
-        public void GetCircle_should_return_null_by_incorrect_radius(int radius) {
-            //Assert
+        public void GetCircle_should_return_list_with_zero_size_by_incorrect_radius(int radius) {
+            //arrange
+            var expectedValue = true;
+
+            //act
+            var acturalValue = true;
             foreach (var hex in map.GetAllHex()) {
-                Hex[] circle = map.GetCircle(hex, radius);
-                Assert.IsNull(circle);
+                acturalValue &= map.GetCircle(hex, radius).Count == 0;
             }
+
+            //Assert
+            Assert.AreEqual(expectedValue, acturalValue);
         }
 
-        public void GetCircle_should_return_null_by_unexisted_center() {
+        public void GetCircle_should_return_list_with_zero_size_by_unexisted_center() {
             T unexistedCenter = new Hex(0, 0, 0) as T;
-            Assert.IsNull(map.GetCircle(unexistedCenter, 1));
+            Assert.AreEqual(map.GetCircle(unexistedCenter, 1).Count, 0);
         }
     }
 }

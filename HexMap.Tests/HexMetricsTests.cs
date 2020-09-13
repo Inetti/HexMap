@@ -5,12 +5,12 @@ using System;
 namespace HexMap.Tests {
     class HexMetricsTests {
         HexMetrics hexMetrics;
-        readonly Hex hex;
+        Hex hex;
 
         [SetUp]
         public void Setup() {
             hexMetrics = new Fixture().Create<HexMetrics>();
-            Hex hex = new Fixture().Create<Hex>();
+            hex = new Fixture().Create<Hex>();
         }
 
         [Test]

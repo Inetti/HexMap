@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HexMap {
     public class RoundMap<T> : Map<T> where T : Hex {
@@ -35,9 +36,15 @@ namespace HexMap {
             return new Hex(coordinates, id) as T;
         }
 
+        public override bool IsValide(HexCoordinates coordinates) {
+            return hexsDict.ContainsKey(coordinates);
+        }
+    
         public override T GetHex(HexCoordinates coordinates) {
-            hexsDict.TryGetValue(coordinates, out T hex);
-            return hex;
+            if (IsValide(coordinates)) {
+                return hexsDict[coordinates];
+            }    
+            throw new Exception("Wrong coordinate");
         }
 
         public override T GetHex(int offsetX, int offsetZ) {
